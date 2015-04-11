@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import plotly.plotly as py
 from plotly.graph_objs import *
 
@@ -15,4 +17,4 @@ data = Data([trace1, trace2])
 layout = Layout(
     barmode='stack'
 )
-plot_url = py.plot(fig, filename='stacked-bar'
+plot_url = py.plot(fig, filename='stacked-bar')

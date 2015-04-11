@@ -1,0 +1,13 @@
+File.readlines('names.txt').each do |line| 
+	name = line.split(" ").first 
+	curl -XPUT 'http://localhost:9200/test_test/_mapping/differ' -d '{
+ 	   "differ" : {
+       	 	"properties" : {
+            		"place" : {"type":"long"},
+            		"diff" : {"type":"string"},
+            		"alt" : {"type":long}
+        	}
+   	 	}
+	}
+	break
+end
