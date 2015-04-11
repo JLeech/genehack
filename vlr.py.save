@@ -1,0 +1,15 @@
+#!/usr/bin/python
+
+import os, sys
+
+#current directory
+path = "."
+
+if len(sys.argv) > 1:
+	 path = sys.argv[1]
+
+for filename in os.listdir(path):
+	n = len(filename)
+	if filename[n-4: n] == '.bz2':
+		filename = filename[:n-8]
+		
