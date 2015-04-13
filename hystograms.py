@@ -29,7 +29,7 @@ def plotData(x, left, right, fname):
         if x.get(index) != None:
             y[int(index)] = map(lambda x: float(x), x[index])
     print "plot"
-    df = pd.DataFrame(data=y.values(), index=map(lambda x: x+1,sorted(y.keys())), columns=['A', 'C', 'G', 'T', 'N', '-'])
+    df = pd.DataFrame(data=y.values(), index=map(lambda x: x+1,y.keys), columns=['A', 'C', 'G', 'T', 'N', '-'])
     df.plot(kind='bar',stacked=True, legend=True, sort_columns=True, mark_right=True)
     print "save"
     fig = plt.gcf()
