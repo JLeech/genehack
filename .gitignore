@@ -1,3 +1,5 @@
-collected
-collected2
-out.vcf
+collected*
+*.vcf
+*.png
+*.tar
+pics

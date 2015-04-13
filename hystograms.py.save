@@ -1,0 +1,41 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib
+import matplotlib.pyplot as plt
+
+from random import randint
+
+def loadRealData(filename, max_count):
+    x = {}
+    count = 0
+    with open(filename) as file:
+        for line in file:
+            if count % 1000000 == 0:
+		if count == 0:
+			count += 1
+			continue
+                print count, "ololo"
+	    if max_count < count: break
+            smth = line.split('\t')
+            x[int(smth[0])] = smth[1:]
+            count += 1
+        file.close()
+    return x
+
+def plotData(v, left, right):
+    y = []
+    for index in range(left, right):
+        if x.get(index) != None:
+            y[index] = map(lambda x: float(x), x[index])
+    print "plot"
+    df = pd.DataFrame(data=y.values(), index=y.keys(), columns=['A', 'C', 'G', 'T', 'N', '-'])
+    df.plot(kind='bar',stacked=True, legend=True, mark_right=True)
+    print "save"
+    fig = plt.gcf()
+    plt.savefig("file.png")
+
+print "loading..."
+data = loadRealData("out_sorted.vcf", 2000000)
+print "load conplete!"
+plotData(data, 0, 1000)
+

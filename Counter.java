@@ -77,11 +77,37 @@ class Counter {
             System.out.println(key + ": " + Arrays.toString((int[])dictionary.get(key)));
 	}
 
-	public void print_to_file(Map dictionary){
+	public void print_to_file(Map dictionary,Boolean freaquancy){
 		try{
-			PrintWriter writer = new PrintWriter("collected", "UTF-8");
-			for(Object key: dictionary.keySet())
-				writer.println(key + " " + Arrays.toString((int[])dictionary.get(key)));
+			String file_name = "collected_sorted";
+			if (freaquancy == true){
+				file_name += "_normalized";
+			}
+			PrintWriter writer = new PrintWriter(file_name+".vcf", "UTF-8");
+			Object[] keys = dictionary.keySet().toArray();
+			Arrays.sort(keys);
+			for(Object key : keys){
+				int [] data = (int[])dictionary.get(key);
+				float [] data_out = new float[6];
+				int place = 0;
+				String out_string = "";
+				if (freaquancy == true){
+					float sum = 0;
+					for( int number : data) {
+	 				   sum += (float)number;
+					}
+					while ( place < 6 ) {
+						out_string += ((float)data[place])/sum + "\t";
+						place += 1;
+					}
+				} else{
+					while ( place < 6 ) {
+						out_string += ((float)data[place]) + "\t";
+						place += 1;
+					}
+				}
+				writer.println(key + "\t" + out_string);
+			}
 			writer.close();
 		}catch(IOException e) {
 				e.printStackTrace();
@@ -90,28 +116,36 @@ class Counter {
 	}
 
     public static void main(String[] args) {
+        Boolean freaquancy = false;
+        if (args.length == 0) {
+        	System.out.println("need more args");
+        	return;
+        }
+        if (args.length == 2) {
+        	freaquancy = Boolean.valueOf(args[1]);
+        }
         final File folder = new File(args[0]);
         int iter = 0;
-	Map dictionary = new HashMap();
+        Map dictionary = new HashMap();
     	Counter counter = new Counter();
     	for (final File file : folder.listFiles()){
     		if (!file.isDirectory()) {
 	    		String name = file.getName();
-	    		if (name.startsWith("vcf")) 
+	    		if (name.startsWith("vcf")){
 	    			System.out.println("found: " + name);
 	    			long start = System.nanoTime();    
 	    			dictionary = counter.countHash(file,dictionary);
 	    			long elapsedTime = System.nanoTime() - start;
 	    			System.out.println("took:" + elapsedTime);
-				System.out.println("place:"+ iter);
-				iter += 1;
-				if (iter == 40){
-					break;
+	    			iter += 1;
+					if (iter == 30){
+						break;
+					}
 				}
-	    		}
+	    	}
     	}
     	System.out.println("start writing");
-    	counter.print_to_file(dictionary);	
+    		counter.print_to_file(dictionary,freaquancy);
     }
 }
 

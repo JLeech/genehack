@@ -1,5 +1,0 @@
-File.readlines('names.txt').each do |line| 
-	name = line.split(" ").first.downcase 
-	exec "curl -XPUT 'http://localhost:9200/#{name}/'"
-	exec "curl -XPUT 'http://localhost:9200/#{name}/_mapping/differ' -d '{\"differ\" : {\"properties\" : {\"place\" : {\"type\":\"long\"},\"diff\" : {\"type\":\"string\"},\"alt\" : {\"type\":\"long\"}}}}'
-end
