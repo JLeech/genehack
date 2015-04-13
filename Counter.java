@@ -77,10 +77,10 @@ class Counter {
             System.out.println(key + ": " + Arrays.toString((int[])dictionary.get(key)));
 	}
 
-	public void print_to_file(Map dictionary,Boolean freaquancy){
+	public void print_to_file(Map dictionary,Boolean frequency){
 		try{
 			String file_name = "collected_sorted";
-			if (freaquancy == true){
+			if (frequency == true){
 				file_name += "_normalized";
 			}
 			PrintWriter writer = new PrintWriter(file_name+".vcf", "UTF-8");
@@ -91,7 +91,7 @@ class Counter {
 				float [] data_out = new float[6];
 				int place = 0;
 				String out_string = "";
-				if (freaquancy == true){
+				if (frequency == true){
 					float sum = 0;
 					for( int number : data) {
 	 				   sum += (float)number;
@@ -116,13 +116,13 @@ class Counter {
 	}
 
     public static void main(String[] args) {
-        Boolean freaquancy = false;
+        Boolean frequency = false;
         if (args.length == 0) {
         	System.out.println("need more args");
         	return;
         }
         if (args.length == 2) {
-        	freaquancy = Boolean.valueOf(args[1]);
+        	frequency = Boolean.valueOf(args[1]);
         }
         final File folder = new File(args[0]);
         int iter = 0;
@@ -145,7 +145,7 @@ class Counter {
 	    	}
     	}
     	System.out.println("start writing");
-    		counter.print_to_file(dictionary,freaquancy);
+    		counter.print_to_file(dictionary,frequency);
     }
 }
 
